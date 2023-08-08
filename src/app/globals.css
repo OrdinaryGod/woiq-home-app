@@ -13,6 +13,10 @@
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
+
+    .dark\:bg-custom-zinc-800 {
+      background-color: rgb(12 12 13 /1);
+    }
   }
 }
 
@@ -24,4 +28,117 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+@layer components {  /* 组件级别的样式 */
+  /* logo动画 */
+  .logo > h1 > .mianTitle {
+    position:relative;
+    color: transparent;
+    background: linear-gradient(
+      to right, 
+      rgb(var(--foreground-rgb)), 
+      rgb(var(--foreground-rgb)), 
+      transparent
+    );
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;  /* 减去文字外的部分，只保留字体 */
+    background-position-x: 200%;
+    animation: fillup 2s ease-in-out 2s forwards;
+  }
+  .logo > h1 > .mianTitle::after {
+    content: 'NEXT';
+    @apply text-6xl font-semibold;
+    position: absolute;
+    /* top: 0; */
+    left: 0;
+    -webkit-text-stroke: 2px;
+    -webkit-text-stroke-color: rgb(var(--foreground-rgb));
+    -webkit-text-fill-color: transparent;
+    opacity: 0;
+    animation: fadein 2s ease-in-out forwards;
+  }
+  @keyframes fillup {
+    from {
+      background-position-x: 200%;
+    }
+    to {
+      background-position-x: 0%;
+    }
+  }
+  @keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .logo > h1 > .subTitle {
+    position:relative;
+    color: transparent;
+    background: linear-gradient(
+      to right, 
+      rgb(var(--foreground-rgb)), 
+      rgb(var(--foreground-rgb)), 
+      transparent
+    );
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-position-x: 200%;
+    animation: fillup 2s ease-in-out 2s forwards;
+  }
+  .logo > h1 > .subTitle::after {
+    content: '.JS';
+    @apply text-xl font-semibold;
+    position: absolute;
+    top: -1.5px;
+    left: 0;
+    -webkit-text-stroke: 1px;
+    -webkit-text-stroke-color: rgb(var(--foreground-rgb));
+    -webkit-text-fill-color: transparent;
+    opacity: 0;
+    animation: fadein 2s ease-in-out forwards;
+  }
+  
+}
+
+@layer utilities {  /* 基础/工具级别的样式 */
+  /* 按钮动画 */
+  .linenear {
+    --border-radius: 0.35rem;
+    --border-width: 2px;
+    --background-spread: 150px;
+
+    position: relative;
+    padding: var(--border-width);
+    border: 0;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    /* background-color: transparent; */
+  }
+  .linenear::after {
+    content: '';
+    position: absolute;
+    top: calc(var(--background-spread) * -1);
+    right: calc(var(--background-spread) * -1);
+    bottom: calc(var(--background-spread) * -1);
+    left: calc(var(--background-spread) * -1);
+    z-index: -1;
+    /* background: linear-gradient(270deg, #6AA1FD 0%, rgba(217, 217, 217, 0) 100%); */
+    background: conic-gradient(from 0deg at 50% 50%, rgba(0, 199, 255, 0) -10deg, #6CDBFB 170deg, rgba(217, 217, 217, 0) 180deg, rgba(0, 199, 255, 0) 350deg, #6CDBFB 530deg);
+    animation: linenearRotate 3s linear infinite; /* 此处角速度有缺陷 */
+  }
+  .linenear > span {
+    display: block;
+    padding: 0.8rem 2.5rem;
+    border-radius: calc(var(--border-radius) - var(--border-width) / 2);
+  }
+  @keyframes linenearRotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
 }
