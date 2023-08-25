@@ -17,11 +17,23 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
+  /* color: rgb(var(--foreground-rgb)); */
+  /* background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
-    rgb(var(--background-start-rgb));
+    rgb(var(--background-start-rgb)); */
+}
+
+@layer components {
+
+.masthead {
+  @apply relative w-full min-h-not-full flex justify-center items-center md:bg-gradient-linear-dark max-md:bg-gradient-radial-dark;
+}
+
+.library {
+  @apply relative min-h-screen w-full flex flex-col items-center bg-dark-3 tracking-wider;
+}
+
 }
