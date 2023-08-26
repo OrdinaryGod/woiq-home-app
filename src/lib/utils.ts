@@ -103,15 +103,51 @@ export function getWEB_SERVICE_WEATHER_URL(
  */
 export function getWEB_SERVICE_IP_URL(
     {
-        ip = '330106', sig = 'JSON'
+        ip = '', sig = ''
     }: {
-        ip: string, sig: string
+        ip: string, sig?: string
     }) {
     const URL = 'https://restapi.amap.com/v3/ip'
 
     return `${URL}?key=${KEY}&ip=${ip}&sig=${sig}`;
 }
 
+// 行政区域查询返回结果
+export interface DistrictResult extends BaseResult {
+    suggestion: {
+        keywords: string[],
+        cities: string[]
+    },
+    districts: District[]
+}
+
+// 下级行政区列表
+interface District {
+    citycode: string[]
+    adcode: string
+    name: string
+    polyline?: string
+    center: string
+    level: string
+    districts: District[]
+}
+
+
+/**
+ * 行政区域查询服务
+ * @param  keywords 查询关键字      只支持单个关键词语搜索关键词支持：行政区名称 | citycode | adcode
+ * @param  subdistrict 子级行政区   可选值：0、1、2、3等数字 默认2 取 下两级行政区
+ * @returns 
+ */
+export function getWEB_SERVICE_CITY_DISTRICT_URL(
+    { cityName, subdistrict = 1 }: { cityName: string, subdistrict?: string | number }
+) {
+    const URL = 'https://restapi.amap.com/v3/config/district';
+
+    // 还有 page、offset、extensions、filter、callback、output 等参数,
+    // 具体使用参考官网：https://lbs.amap.com/api/webservice/guide/api/district/
+    return `${URL}?keywords=${cityName}&subdistrict=${subdistrict}&key=${KEY}`
+}
 
 
 export function numberToWeekday(n: number) {
@@ -133,4 +169,13 @@ export function numberToWeekday(n: number) {
         default:
             return "无效的星期";
     }
+}
+
+/**
+ * 验证是否为 ipv4地址
+ * @param str 
+ */
+export function testIpv4(str: string): boolean {
+    const re = new RegExp('^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$');
+    return re.test(str)
 }

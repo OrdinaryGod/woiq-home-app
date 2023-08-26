@@ -2,9 +2,9 @@ import { getFetch } from '@/lib/http';
 import { getWEB_SERVICE_WEATHER_URL } from '@/lib/utils';
 import { ForecastResult, numberToWeekday } from "@/lib/utils";
 
-async function Library() {
+async function Library({ adcode }: { adcode: string }) {
     const urlOfFocst = getWEB_SERVICE_WEATHER_URL({
-        city: '330106',
+        city: adcode,
         extensions: 'all',
         output: 'JSON'
     })

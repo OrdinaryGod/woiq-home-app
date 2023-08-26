@@ -1,27 +1,11 @@
 import { getFetch } from '@/lib/http';
-import { getWEB_SERVICE_WEATHER_URL } from '@/lib/utils';
-import { LiveResult } from "@/lib/utils";
+import { getWEB_SERVICE_WEATHER_URL, LiveResult } from '@/lib/utils';
 import Image from "next/image";
 
-// export async function getServerSideProps(context: any) {
-//     // 获取请求对象
-//     const { req } = context;
-//     // 从请求对象中获取客户端的 IP 地址
-//     const clientIp = req.connection.remoteAddress;
-//     // 在控制台输出 IP 地址（仅用于调试目的）
-//     console.log(`客户端 IP 地址：${clientIp}`);
-//     // 返回数据到页面组件
-//     return {
-//         props: {
-//             clientIp
-//         }
-//     };
-// }
-
-async function Weatherbar() {
+async function Weatherbar({ adcode }: { adcode: string }) {
 
     const urlOfLives = getWEB_SERVICE_WEATHER_URL({
-        city: '330106',
+        city: adcode,
         extensions: 'base',
         output: 'JSON'
     })
@@ -41,6 +25,8 @@ async function Weatherbar() {
     //         }
     //     ]
     // }
+    console.log(res);
+    
     if (!res) return null
     const data = res.lives
 
@@ -53,7 +39,7 @@ async function Weatherbar() {
                     return (
                         <div key={index} className='flex flex-col gap-3 cursor-default tracking-wider'>
                             <div className='text-gray-1 grid grid-cols-5 gap-5'>
-                                <div className='col-span-3'>城市/区</div>
+                                <div className='col-span-3'>地区</div>
                                 <div className='text-light-1 col-span-2'>{item.city}</div>
                             </div>
                             <div className='text-gray-1 grid grid-cols-5 gap-5'>
