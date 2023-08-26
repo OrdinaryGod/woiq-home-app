@@ -33,7 +33,7 @@ body {
 }
 
 .library {
-  @apply relative min-h-screen w-full flex flex-col items-center bg-dark-3 tracking-wider;
+  @apply relative min-h-screen w-full flex flex-col items-center bg-dark-3 tracking-wider p-2;
 }
 
 }
